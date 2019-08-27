@@ -28,11 +28,16 @@ services:
         image: ubuntu:18.04
         volumes:
             - ./scripts:/opt/scripts
+        depends_on:
+            - mysql_master
+            - mysql_slave
         environment:
-            MASTER_HOSTNAME=${MASTER_HOSTNAME}
-            MASTER_ROOT_PASSWORD=${MASTER_ROOT_PASSWORD}
-            SLAVE_HOSTNAME=${SLAVE_HOSTNAME}
-            SLAVE_ROOT_PASSWORD=${SLAVE_ROOT_PASSWORD}
-            SLAVE_REPL_USER=${SLAVE_REPL_USER}
-            SLAVE_REPL_PASSWORD=${SLAVE_REPL_PASSWORD}
+            MASTER_HOSTNAME: ${MASTER_HOSTNAME}
+            MASTER_ROOT_USER: ${MASTER_ROOT_USER}
+            MASTER_ROOT_PASSWORD: ${MASTER_ROOT_PASSWORD}
+
+            SLAVE_HOSTNAME: ${SLAVE_HOSTNAME}
+            SLAVE_ROOT_PASSWORD: ${SLAVE_ROOT_PASSWORD}
+            SLAVE_REPL_USER: ${SLAVE_REPL_USER}
+            SLAVE_REPL_PASSWORD: ${SLAVE_REPL_PASSWORD}
         command: bash /opt/scripts/mysql-setup-replication.sh

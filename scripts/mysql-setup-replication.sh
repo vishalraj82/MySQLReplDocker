@@ -1,27 +1,36 @@
 #! /bin/bash
 
-apt-get -qq update
+set -x
+
+apt-get update
 apt-get install mysql-client -y --no-install-recommends
 
-sleep 30
+sleep 15
 
 mysql \
-    -u "$MYSQL_MASTER_USER" \
-    -p "$MYSQL_MASTER_PASSWORD" \
-    -h "$MYSQL_MASTER_HOSTNAME" \
+    -u"$MASTER_ROOT_USER" \
+    -p"$MASTER_ROOT_PASSWORD" \
+    -h"$MASTER_HOSTNAME" \
     -AN \
     -e "CREATE USER '$SLAVE_REPL_USER'@'$SLAVE_HOSTNAME' IDENTIFIED BY '$SLAVE_REPL_PASSWORD';"
 
 mysql \
-    -u "$MYSQL_MASTER_USER" \
-    -p "$MYSQL_MASTER_PASSWORD" \
-    -h "$MYSQL_MASTER_HOSTNAME" \
+    -u"$MASTER_ROOT_USER" \
+    -p"$MASTER_ROOT_PASSWORD" \
+    -h"$MASTER_HOSTNAME" \
     -AN \
     -e "GRANT REPLICATION SLAVE ON *.* TO '$SLAVE_REPL_USER'@'$SLAVE_HOSTNAME' IDENTIFIED BY '$SLAVE_REPL_PASSWORD';"
 
 mysql \
-    -u "$MYSQL_MASTER_USER" \
-    -p "$MYSQL_MASTER_PASSWORD" \
-    -h "$MYSQL_MASTER_HOSTNAME" \
+    -u"$MASTER_ROOT_USER" \
+    -p"$MASTER_ROOT_PASSWORD" \
+    -h"$MASTER_HOSTNAME" \
     -AN \
     -e "FLUSH PRIVILEGES;"
+
+mysql \
+    -u"$MASTER_ROOT_USER" \
+    -p"$MASTER_ROOT_PASSWORD" \
+    -h"$MASTER_HOSTNAME" \
+    -AN \
+    -e "SHOW GRANTS FOR '$SLAVE_REPL_USER'@'$SLAVE_HOSTNAME';"
