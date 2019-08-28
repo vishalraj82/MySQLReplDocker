@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -x
+
 # trap ctrl-c and call ctrl_c()
 trap ctrl_c INT
 

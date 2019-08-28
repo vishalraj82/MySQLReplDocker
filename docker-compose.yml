@@ -7,8 +7,10 @@ services:
             - 33066:3306
         volumes:
             - ./master/etc/mysql/conf.d:/etc/mysql/conf.d:ro
+            - ./master/user/share/zoneinfo/:/usr/share/zoneinfo:ro
             - ./master/var/lib/mysql:/var/lib/mysql:rw
             - ./master/var/log/mysql:/var/log/mysql:rw
+            - ./master/var/run/mysql:/var/run/mysql:rw
         environment:
             MYSQL_ROOT_PASSWORD: ${MASTER_ROOT_PASSWORD}
     mysql_slave:
@@ -18,8 +20,10 @@ services:
             - 33067:3306
         volumes:
             - ./slave/etc/mysql/conf.d:/etc/mysql/conf.d:ro
+            - ./slave/user/share/zoneinfo/:/usr/share/zoneinfo:ro
             - ./slave/var/lib/mysql:/var/lib/mysql:rw
             - ./slave/var/log/mysql:/var/log/mysql:rw
+            - ./slave/var/run/mysql:/var/run/mysql:rw
         environment:
             MYSQL_ROOT_PASSWORD: ${SLAVE_ROOT_PASSWORD}
         depends_on:
