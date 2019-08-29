@@ -12,7 +12,7 @@ services:
             MYSQL_ROOT_PASSWORD: ${MASTER_ROOT_PASSWORD}
         networks:
             replication_network:
-                ipv4_address: 10.208.0.100
+                ipv4_address: ${MASTER_HOST_IP}
     mysql_slave:
         image: mysql:5.7.27
         hostname: ${SLAVE_HOSTNAME}
@@ -27,7 +27,7 @@ services:
             - mysql_master
         networks:
             replication_network:
-                ipv4_address: 10.208.0.101
+                ipv4_address: ${SLAVE_HOST_IP}
     replication:
         image: ubuntu:18.04
         volumes:
@@ -39,10 +39,12 @@ services:
             - replication_network
         environment:
             MASTER_HOSTNAME: ${MASTER_HOSTNAME}
+            MASTER_HOST_IP: ${MASTER_HOST_IP}
             MASTER_ROOT_USER: ${MASTER_ROOT_USER}
             MASTER_ROOT_PASSWORD: ${MASTER_ROOT_PASSWORD}
 
             SLAVE_HOSTNAME: ${SLAVE_HOSTNAME}
+            SLAVE_HOST_IP: ${SLAVE_HOST_IP}
             SLAVE_ROOT_USER: ${SLAVE_ROOT_USER}
             SLAVE_ROOT_PASSWORD: ${SLAVE_ROOT_PASSWORD}
 
