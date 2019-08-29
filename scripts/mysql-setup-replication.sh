@@ -35,7 +35,7 @@ MYSQL_QUERY="UNLOCK TABLES;"
 mysql --user="$MASTER_ROOT_USER" --password="$MASTER_ROOT_PASSWORD" --host="$MASTER_HOST_IP" -e "$MYSQL_QUERY;"
     
 # Import replication database in slave
-mysql --user="$SLAVE_ROOT_USER" --password= "$SLAVE_ROOT_PASSWORD" --host="$SLAVE_HOST_IP" < cat /tmp/master.dump.sql
+mysql --user="$SLAVE_ROOT_USER" --password= "$SLAVE_ROOT_PASSWORD" --host="$SLAVE_HOST_IP" < /tmp/master.dump.sql
 
 REPL_LOG_FILE=$(eval "mysql --user=$MASTER_ROOT_USER --password=$MASTER_ROOT_PASSWORD --host=$MASTER_HOST_IP -e 'SHOW MASTER STATUS\G' | grep File | sed -n -e 's/^.*: //p'")
 REPL_LOG_POSITION=$(eval "mysql --user=$MASTER_ROOT_USER --password=$MASTER_ROOT_PASSWORD --host=$MASTER_HOST_IP -e 'SHOW MASTER STATUS\G' | grep Position | sed -n -e 's/^.*: //p'")
@@ -52,8 +52,15 @@ mysql --user="$SLAVE_ROOT_USER" --password="$SLAVE_ROOT_PASSWORD" --host="$SLAVE
 MYSQL_QUERY="SHOW SLAVE STATUS \G;"
 mysql --user="$SLAVE_ROOT_USER" --password="$SLAVE_ROOT_PASSWORD" --host="$SLAVE_HOST_IP" -e "$MYSQL_QUERY"
 
+# Extract the dump zip
+tar xvzf /opt/scripts/sql-dumps.tgz -C /opt/scripts/
+
 # Dump sample data in master
-mysql --user="$MASTER_ROOT_USER" --password="$MASTER_ROOT_PASSWORD" --host="$MASTER_HOST_IP" < cat /opt/scripts/Demo-1K-Rows.sql
+mysql --user="$MASTER_ROOT_USER" --password="$MASTER_ROOT_PASSWORD" --host="$MASTER_HOST_IP" < /opt/scripts/Demo-1K-Rows.sql
+mysql --user="$MASTER_ROOT_USER" --password="$MASTER_ROOT_PASSWORD" --host="$MASTER_HOST_IP" < /opt/scripts/Demo-50K-Rows.sql
+
+# Wait a little before checking the slave status again
+sleep 10;
 
 # See the slave status after dump
 MYSQL_QUERY="SHOW SLAVE STATUS \G;"
