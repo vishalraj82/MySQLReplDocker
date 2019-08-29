@@ -3,13 +3,13 @@
 set -x
 
 # trap ctrl-c and call ctrl_c()
-trap ctrl_c INT
+#trap ctrl_c INT
 
-function ctrl_c() {
-    docker-compose down --remove-orphans
-    docker-compose ps
-    #docker volume ls | awk '{ print $2 }' | grep "^[a\-z0\-9]\+" | xargs docker volume rm
-}
+#function ctrl_c() {
+#    docker-compose down --remove-orphans
+#    docker-compose ps
+#    #docker volume ls | awk '{ print $2 }' | grep "^[a\-z0\-9]\+" | xargs docker volume rm
+#}
 
 arg1=$1
 arg2=$1
