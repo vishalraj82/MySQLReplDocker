@@ -48,7 +48,7 @@ services:
 
             SLAVE_REPL_USER: ${SLAVE_REPL_USER}
             SLAVE_REPL_PASSWORD: ${SLAVE_REPL_PASSWORD}
-        command: bash /opt/scripts/mysql-setup-replication.sh
+        command: bash /opt/scripts/master-2-slave.sh
 networks:
     replication_network:
         ipam:
