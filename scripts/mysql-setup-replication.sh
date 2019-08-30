@@ -3,7 +3,7 @@
 set -x
 
 # Add a wait for containers to be ready
-#sleep 5
+sleep 5
 
 # Install the mysql client
 apt-get -qq update
@@ -52,16 +52,24 @@ mysql --user="$SLAVE_ROOT_USER" --password="$SLAVE_ROOT_PASSWORD" --host="$SLAVE
 MYSQL_QUERY="SHOW SLAVE STATUS \G;"
 mysql --user="$SLAVE_ROOT_USER" --password="$SLAVE_ROOT_PASSWORD" --host="$SLAVE_HOST_IP" -e "$MYSQL_QUERY"
 
+
+
+# IMPORTANT
+#
+# Uncomment the lines below to check if the replication setup has been setup correctly.
+# This would create a new database `demo` and and two new tables `users1` and `users2`
+# in demo with 1k an 50k corresponding entries
+
 # Extract the dump zip
-tar xvzf /opt/scripts/sql-dumps.tgz -C /opt/scripts/
+# tar xvzf /opt/scripts/users.sql.tgz -C /opt/scripts/
 
 # Dump sample data in master
-mysql --user="$MASTER_ROOT_USER" --password="$MASTER_ROOT_PASSWORD" --host="$MASTER_HOST_IP" < /opt/scripts/Demo-1K-Rows.sql
-mysql --user="$MASTER_ROOT_USER" --password="$MASTER_ROOT_PASSWORD" --host="$MASTER_HOST_IP" < /opt/scripts/Demo-50K-Rows.sql
+# mysql --user="$MASTER_ROOT_USER" --password="$MASTER_ROOT_PASSWORD" --host="$MASTER_HOST_IP" < /opt/scripts/users1.sql
+# mysql --user="$MASTER_ROOT_USER" --password="$MASTER_ROOT_PASSWORD" --host="$MASTER_HOST_IP" < /opt/scripts/users2.sql
 
-# Wait a little before checking the slave status again
-sleep 10;
+# Wait 5 seconds before checking the slave status again
+# sleep 5;
 
 # See the slave status after dump
-MYSQL_QUERY="SHOW SLAVE STATUS \G;"
-mysql --user="$SLAVE_ROOT_USER" --password="$SLAVE_ROOT_PASSWORD" --host="$SLAVE_HOST_IP" -e "$MYSQL_QUERY"
+# MYSQL_QUERY="SHOW SLAVE STATUS \G;"
+# mysql --user="$SLAVE_ROOT_USER" --password="$SLAVE_ROOT_PASSWORD" --host="$SLAVE_HOST_IP" -e "$MYSQL_QUERY"
