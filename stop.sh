@@ -1,8 +1,14 @@
 #! /bin/bash
 
-docker-compose down
+source check_params.sh
 
-if [ "$1" == "clean" ]
+echo $file
+
+exit 0
+
+docker-compose -f $file down
+
+if [ "$2" == "clean" ]
 then
     for par in "master" "slave"
     do
