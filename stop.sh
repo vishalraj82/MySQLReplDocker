@@ -2,11 +2,12 @@
 
 source check_params.sh
 
-echo $file
+if [ $file_found -eq 0 ]
+then
+    check_docker_config
+fi
 
-exit 0
-
-docker-compose -f $file down
+#docker-compose -f $file down
 
 if [ "$2" == "clean" ]
 then
