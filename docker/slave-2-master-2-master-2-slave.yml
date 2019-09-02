@@ -26,6 +26,32 @@ services:
         networks:
             replication_network:
                 ipv4_address: ${SLAVE_1_HOST_IP}
+    mysql_master_2:
+        image: mysql:5.7.27
+        hostname: ${MASTER_2_HOSTNAME}
+        volumes:
+            - ./master/etc/mysql/conf.d/master2.cnf:/etc/mysql/conf.d/my.cnf:ro
+            - ./master/user/share/zoneinfo/:/usr/share/zoneinfo:ro
+            - ./master/var/lib/mysql:/var/lib/mysql:rw
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MASTER_2_ROOT_PASSWORD}
+        networks:
+            replication_network:
+                ipv4_address: ${MASTER_2_HOST_IP}
+    mysql_slave_2:
+        image: mysql:5.7.27
+        hostname: ${SLAVE_2_HOSTNAME}
+        volumes:
+            - ./slave/etc/mysql/conf.d/slave2.cnf:/etc/mysql/conf.d/my.cnf:ro
+            - ./slave/user/share/zoneinfo/:/usr/share/zoneinfo:ro
+            - ./slave/var/lib/mysql:/var/lib/mysql:rw
+        environment:
+            MYSQL_ROOT_PASSWORD: ${SLAVE_2_ROOT_PASSWORD}
+        depends_on:
+            - ${MASTER_2_HOSTNAME}
+        networks:
+            replication_network:
+                ipv4_address: ${SLAVE_2_HOST_IP}
     replication:
         image: ubuntu:18.04
         volumes:
@@ -46,9 +72,19 @@ services:
             SLAVE_1_ROOT_USER: ${SLAVE_1_ROOT_USER}
             SLAVE_1_ROOT_PASSWORD: ${SLAVE_1_ROOT_PASSWORD}
 
+            MASTER_2_HOSTNAME: ${MASTER_2_HOSTNAME}
+            MASTER_2_HOST_IP: ${MASTER_2_HOST_IP}
+            MASTER_2_ROOT_USER: ${MASTER_2_ROOT_USER}
+            MASTER_2_ROOT_PASSWORD: ${MASTER_2_ROOT_PASSWORD}
+
+            SLAVE_2_HOSTNAME: ${SLAVE_2_HOSTNAME}
+            SLAVE_2_HOST_IP: ${SLAVE_2_HOST_IP}
+            SLAVE_2_ROOT_USER: ${SLAVE_2_ROOT_USER}
+            SLAVE_2_ROOT_PASSWORD: ${SLAVE_2_ROOT_PASSWORD}
+
             SLAVE_REPL_USER: ${SLAVE_REPL_USER}
             SLAVE_REPL_PASSWORD: ${SLAVE_REPL_PASSWORD}
-        command: bash /opt/scripts/master-2-slave.sh
+        command: bash /opt/scripts/slave-2-master-2-master-2-slave.sh
 networks:
     replication_network:
         ipam:

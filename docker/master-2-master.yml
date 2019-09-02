@@ -1,31 +1,29 @@
 version: "3"
 services:
-    mysql_master:
+    mysql_master_1:
         image: mysql:5.7.27
-        hostname: ${MASTER_HOSTNAME}
+        hostname: ${MASTER_1_HOSTNAME}
         volumes:
-            - ./master/etc/mysql/conf.d:/etc/mysql/conf.d:ro
+            - ./master/etc/mysql/conf.d/master1.cnf:/etc/mysql/conf.d/my.cnf:ro
             - ./master/user/share/zoneinfo/:/usr/share/zoneinfo:ro
-            - ./master/var/lib/mysql:/var/lib/mysql:rw
+            - ./master/var/lib/mysql/master1:/var/lib/mysql:rw
         environment:
-            MYSQL_ROOT_PASSWORD: ${MASTER_ROOT_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MASTER_1_ROOT_PASSWORD}
         networks:
             replication_network:
-                ipv4_address: ${MASTER_HOST_IP}
-    mysql_slave:
+                ipv4_address: ${MASTER_1_HOST_IP}
+    mysql_master_2:
         image: mysql:5.7.27
-        hostname: ${SLAVE_HOSTNAME}
+        hostname: ${MASTER_2_HOSTNAME}
         volumes:
-            - ./slave/etc/mysql/conf.d:/etc/mysql/conf.d:ro
-            - ./slave/user/share/zoneinfo/:/usr/share/zoneinfo:ro
-            - ./slave/var/lib/mysql:/var/lib/mysql:rw
+            - ./master/etc/mysql/conf.d/master2:/etc/mysql/conf.d/my.cnf:ro
+            - ./master/user/share/zoneinfo/:/usr/share/zoneinfo:ro
+            - ./master/var/lib/mysql/master2:/var/lib/mysql:rw
         environment:
-            MYSQL_ROOT_PASSWORD: ${SLAVE_ROOT_PASSWORD}
-        depends_on:
-            - ${MASTER_HOSTNAME}
+            MYSQL_ROOT_PASSWORD: ${MASTER_2_ROOT_PASSWORD}
         networks:
             replication_network:
-                ipv4_address: ${SLAVE_HOST_IP}
+                ipv4_address: ${MASTER_2_HOST_IP}
     replication:
         image: ubuntu:18.04
         volumes:
@@ -36,19 +34,16 @@ services:
         networks:
             - replication_network
         environment:
-            MASTER_HOSTNAME: ${MASTER_HOSTNAME}
-            MASTER_HOST_IP: ${MASTER_HOST_IP}
-            MASTER_ROOT_USER: ${MASTER_ROOT_USER}
-            MASTER_ROOT_PASSWORD: ${MASTER_ROOT_PASSWORD}
+            MASTER_1_HOSTNAME: ${MASTER_1_HOSTNAME}
+            MASTER_1_HOST_IP: ${MASTER_1_HOST_IP}
+            MASTER_1_ROOT_USER: ${MASTER_1_ROOT_USER}
+            MASTER_1_ROOT_PASSWORD: ${MASTER_1_ROOT_PASSWORD}
 
-            SLAVE_HOSTNAME: ${SLAVE_HOSTNAME}
-            SLAVE_HOST_IP: ${SLAVE_HOST_IP}
-            SLAVE_ROOT_USER: ${SLAVE_ROOT_USER}
-            SLAVE_ROOT_PASSWORD: ${SLAVE_ROOT_PASSWORD}
-
-            SLAVE_REPL_USER: ${SLAVE_REPL_USER}
-            SLAVE_REPL_PASSWORD: ${SLAVE_REPL_PASSWORD}
-        command: bash /opt/scripts/master-2-slave.sh
+            MASTER_2_HOSTNAME: ${MASTER_2_HOSTNAME}
+            MASTER_2_HOST_IP: ${MASTER_2_HOST_IP}
+            MASTER_2_ROOT_USER: ${MASTER_2_ROOT_USER}
+            MASTER_2_ROOT_PASSWORD: ${MASTER_2_ROOT_PASSWORD}
+        command: bash /opt/scripts/master-2-master.sh
 networks:
     replication_network:
         ipam:

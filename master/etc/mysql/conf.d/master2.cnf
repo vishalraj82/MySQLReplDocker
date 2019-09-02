@@ -1,5 +1,5 @@
 [mysqld]
-server-id                      = 100
+server-id                      = 200
 bind-address                   = mysql_master
 innodb_flush_log_at_trx_commit = 1
 sync_binlog                    = 1

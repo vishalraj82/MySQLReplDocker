@@ -2,10 +2,7 @@
 
 source check_params.sh
 
-if [ $file_found -eq 0 ]
-then
-    check_docker_config
-fi
+check_docker_config
 
 if [ $file_found -eq 1 ]
     file="$docker_folder/$file"
