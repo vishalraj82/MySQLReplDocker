@@ -1,6 +1,6 @@
 version: "3"
 services:
-    _1:
+    master_1:
         image: mysql:5.7.27
         hostname: ${MASTER_1_HOSTNAME}
         volumes:
