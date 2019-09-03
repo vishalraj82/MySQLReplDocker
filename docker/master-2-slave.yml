@@ -1,6 +1,6 @@
 version: "3"
 services:
-    mysql_master_1:
+    _1:
         image: mysql:5.7.27
         hostname: ${MASTER_1_HOSTNAME}
         volumes:
@@ -12,7 +12,7 @@ services:
         networks:
             replication_network:
                 ipv4_address: ${MASTER_1_HOST_IP}
-    mysql_slave_1:
+    slave_1:
         image: mysql:5.7.27
         hostname: ${SLAVE_1_HOSTNAME}
         volumes:

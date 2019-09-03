@@ -1,6 +1,6 @@
 [mysqld]
 server-id            = 101
-bind-address         = mysql_slave_1
+bind-address         = slave_1
 log-error            = /var/lib/mysql/mysql.err
 log-bin              = /var/lib/mysql/mysql-bin
 relay-log            = /var/lib/mysql/mysql-relay-bin

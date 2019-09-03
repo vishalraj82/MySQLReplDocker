@@ -1,6 +1,6 @@
 [mysqld]
 server-id                      = 100
-bind-address                   = mysql_master_1
+bind-address                   = master_1
 innodb_flush_log_at_trx_commit = 1
 sync_binlog                    = 1
 binlog-format                  = ROW
@@ -13,4 +13,9 @@ master-info-file               = /var/lib/mysql/mysql-master.info
 log-error                      = /var/lib/mysql/mysql.err
 auto-increment-offset          = 1
 auto_increment_increment       = 2
+log-slave-updates              = 1
+
 skip-name-resolve
+
+gtid_mode                      = ON
+enforce-gtid-consistency
