@@ -4,9 +4,9 @@ services:
         image: mysql:5.7.27
         hostname: ${MASTER_1_HOSTNAME}
         volumes:
-            - ./master/etc/mysql/conf.d/master1.cnf:/etc/mysql/conf.d/my.cnf:ro
-            - ./master/user/share/zoneinfo/:/usr/share/zoneinfo:ro
-            - ./master/var/lib/mysql/master1:/var/lib/mysql:rw
+            - ../conf/master1.cnf:/etc/mysql/conf.d/my.cnf:ro
+            - ../data/master1:/var/lib/mysql:rw
+            - /usr/share/zoneinfo/:/usr/share/zoneinfo/:ro
         environment:
             MYSQL_ROOT_PASSWORD: ${MASTER_1_ROOT_PASSWORD}
         networks:
@@ -16,9 +16,9 @@ services:
         image: mysql:5.7.27
         hostname: ${MASTER_2_HOSTNAME}
         volumes:
-            - ./master/etc/mysql/conf.d/master2:/etc/mysql/conf.d/my.cnf:ro
-            - ./master/user/share/zoneinfo/:/usr/share/zoneinfo:ro
-            - ./master/var/lib/mysql/master2:/var/lib/mysql:rw
+            - ../conf/master2:/etc/mysql/conf.d/my.cnf:ro
+            - ../data/master2:/var/lib/mysql:rw
+            - /usr/share/zoneinfo/:/usr/share/zoneinfo/:ro
         environment:
             MYSQL_ROOT_PASSWORD: ${MASTER_2_ROOT_PASSWORD}
         networks:
@@ -27,10 +27,10 @@ services:
     replication:
         image: ubuntu:18.04
         volumes:
-            - ./scripts:/opt/scripts
+            - ../scripts:${REPL_SCRIPT_MOUNT_PATH}
         depends_on:
-            - ${MASTER_HOSTNAME}
-            - ${SLAVE_HOSTNAME}
+            - ${MASTER_1_HOSTNAME}
+            - ${MASTER_2_HOSTNAME}
         networks:
             - replication_network
         environment:
@@ -43,7 +43,10 @@ services:
             MASTER_2_HOST_IP: ${MASTER_2_HOST_IP}
             MASTER_2_ROOT_USER: ${MASTER_2_ROOT_USER}
             MASTER_2_ROOT_PASSWORD: ${MASTER_2_ROOT_PASSWORD}
-        command: bash /opt/scripts/master-2-master.sh
+
+            REPL_USER: ${REPL_USER}
+            REPL_PASSWORD: ${REPL_PASSWORD}
+        command: bash ${REPL_SCRIPT_MOUNT_PATH}/master-2-master.sh
 networks:
     replication_network:
         ipam:

@@ -1,6 +1,6 @@
 [mysqld]
-server-id                      = 200
-bind-address                   = mysql_master
+server-id                      = 100
+bind-address                   = mysql_master_1
 innodb_flush_log_at_trx_commit = 1
 sync_binlog                    = 1
 binlog-format                  = ROW
@@ -14,4 +14,3 @@ log-error                      = /var/lib/mysql/mysql.err
 
 skip-name-resolve
 auto_increment_increment       = 2
-binlog_ignore_db               = mysql

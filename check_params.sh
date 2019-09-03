@@ -22,15 +22,15 @@ function show_usage() {
 
 function check_shortcut() {
     case $file in
-        ms)
+        "ms"|"masterslave"|"master-slave"|"master2slave"|"master-2-slave")
             file="master-2-slave.yml"
             file_found=1
             ;;
-        mm)
+        "mm"|"mastermaster"|"master-master"|"master2master"|"master-2-master")
             file="master-2-master.yml"
             file_found=1
             ;;
-        smms)
+        "smms"|"slavemastermasterslave"|"slave-master-master-slave"|"slave2master2master2slave"|"slave-2-master-2-master-2-slave")
             file="slave-2-master-2-master-2-slave.yml"
             file_found=1
             ;;

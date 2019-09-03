@@ -4,9 +4,9 @@ services:
         image: mysql:5.7.27
         hostname: ${MASTER_1_HOSTNAME}
         volumes:
-            - ./master/etc/mysql/conf.d/master1.cnf:/etc/mysql/conf.d/my.cnf:ro
-            - ./master/user/share/zoneinfo/:/usr/share/zoneinfo:ro
-            - ./master/var/lib/mysql:/var/lib/mysql:rw
+            - ../conf/master1.cnf:/etc/mysql/conf.d/my.cnf:ro
+            - ../data/master1:/var/lib/mysql:rw
+            - /usr/share/zoneinfo/:/usr/share/zoneinfo/:ro
         environment:
             MYSQL_ROOT_PASSWORD: ${MASTER_1_ROOT_PASSWORD}
         networks:
@@ -16,9 +16,9 @@ services:
         image: mysql:5.7.27
         hostname: ${SLAVE_1_HOSTNAME}
         volumes:
-            - ./slave/etc/mysql/conf.d/slave1.cnf:/etc/mysql/conf.d/my.cnf:ro
-            - ./slave/user/share/zoneinfo/:/usr/share/zoneinfo:ro
-            - ./slave/var/lib/mysql:/var/lib/mysql:rw
+            - ../conf/slave1.cnf:/etc/mysql/conf.d/my.cnf:ro
+            - ../data/slave1:/var/lib/mysql:rw
+            - /usr/share/zoneinfo/:/usr/share/zoneinfo/:ro
         environment:
             MYSQL_ROOT_PASSWORD: ${SLAVE_1_ROOT_PASSWORD}
         depends_on:
@@ -29,7 +29,7 @@ services:
     replication:
         image: ubuntu:18.04
         volumes:
-            - ./scripts:/opt/scripts
+            - ../scripts:${REPL_SCRIPT_MOUNT_PATH}
         depends_on:
             - ${MASTER_1_HOSTNAME}
             - ${SLAVE_1_HOSTNAME}
@@ -46,9 +46,9 @@ services:
             SLAVE_1_ROOT_USER: ${SLAVE_1_ROOT_USER}
             SLAVE_1_ROOT_PASSWORD: ${SLAVE_1_ROOT_PASSWORD}
 
-            SLAVE_REPL_USER: ${SLAVE_REPL_USER}
-            SLAVE_REPL_PASSWORD: ${SLAVE_REPL_PASSWORD}
-        command: bash /opt/scripts/master-2-slave.sh
+            REPL_USER: ${REPL_USER}
+            REPL_PASSWORD: ${REPL_PASSWORD}
+        command: bash ${REPL_SCRIPT_MOUNT_PATH}/master-2-slave.sh
 networks:
     replication_network:
         ipam:

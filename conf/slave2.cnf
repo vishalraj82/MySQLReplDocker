@@ -1,6 +1,6 @@
 [mysqld]
-server-id            = 101
-bind-address         = mysql_slave_1
+server-id            = 201
+bind-address         = mysql_slave_2
 log-error            = /var/lib/mysql/mysql.err
 log-bin              = /var/lib/mysql/mysql-bin
 relay-log            = /var/lib/mysql/mysql-relay-bin
@@ -9,4 +9,3 @@ relay-log-info-file  = /var/lib/mysql/mysql-relay-log.info
 master-info-file     = /var/lib/mysql/mysql-master.info
 
 skip-name-resolve
-binlog-ignore-db     = mysql
