@@ -11,6 +11,6 @@ relay-log-index                = /var/log/mysql/mysql-relay-bin.index
 relay-log-info-file            = /var/lib/mysql/mysql-relay-log.info
 master-info-file               = /var/lib/mysql/mysql-master.info
 log-error                      = /var/lib/mysql/mysql.err
-
-skip-name-resolve
+auto-increment-offset          = 1
 auto_increment_increment       = 2
+skip-name-resolve

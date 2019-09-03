@@ -13,7 +13,7 @@ apt-get -qq install mysql-client -y --no-install-recommends
 # Import common functions
 #######################################################################################################################
 BASEDIR=$(dirname "$0")
-source $BASEDIR/commonfunctions.sh
+source $BASEDIR/common-functions.sh
 
 
 #######################################################################################################################

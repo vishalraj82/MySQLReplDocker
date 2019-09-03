@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -x
+
 source check_params.sh
 
 check_docker_config
@@ -10,8 +12,11 @@ docker-compose -f $file down
 
 if [ "$2" == "clean" ]
 then
-    for datadir in master1 master1 slave1 slave2
+    for node in "master" "slave"
     do
-        sudo rm -rf data/$datadir/*
+        for num in 1 2
+        do
+            sudo rm -rf data/$node$num/*
+        done
     done
 fi

@@ -16,7 +16,7 @@ services:
         image: mysql:5.7.27
         hostname: ${MASTER_2_HOSTNAME}
         volumes:
-            - ../conf/master2:/etc/mysql/conf.d/my.cnf:ro
+            - ../conf/master2.cnf:/etc/mysql/conf.d/my.cnf:ro
             - ../data/master2:/var/lib/mysql:rw
             - /usr/share/zoneinfo/:/usr/share/zoneinfo/:ro
         environment:
