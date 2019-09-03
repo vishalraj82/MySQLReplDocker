@@ -46,11 +46,16 @@ The folder "docker" contains the docker container configuation files
 The folder "scripts" contains bash script which does the real job of setup of replication between the nodes
 
 
+
+
 To run a MySQL master-slave container replication execute the command
+
 ```bash start.sh master-slave```
 
 To run a MySQL master-master container replication execute the command
+
 ```bash start.sh master-master```
 
 To run a MySQL slave-master-master-slave replication execute the command
+
 ```bash start.sh slave-master-master-slave```
