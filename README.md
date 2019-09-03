@@ -38,6 +38,9 @@ Here is the directory structure and its explanation
 
 
 The folder "conf" contains the MySQL configuration for master and slave nodes.
+
 The folder "data" contains folders to hold data for master and slave nodes.
+
 The folder "docker" contains the docker container configuation files
+
 The folder "scripts" contains bash script which does the real job of setup of replication between the nodes
