@@ -31,10 +31,10 @@ setup_master_2_slave_replication $MASTER_2_HOST_IP $MASTER_2_ROOT_USER $MASTER_2
 #######################################################################################################################
 # Setup replication from master1 to master2
 #######################################################################################################################
-setup_master_2_master_replication $MASTER_1_HOST_IP $MASTER_1_ROOT_USER $MASTER_1_ROOT_PASSWORD $MASTER_2_HOST_IP $MASTER_2_ROOT_USER $MASTER_2_ROOT_PASSWORD $MASTER_1_HOST_IP $REPL_USER $REPL_PASSWORD
+setup_master_2_slave_replication $MASTER_1_HOST_IP $MASTER_1_ROOT_USER $MASTER_1_ROOT_PASSWORD $MASTER_2_HOST_IP $MASTER_2_ROOT_USER $MASTER_2_ROOT_PASSWORD $REPL_USER $REPL_PASSWORD
 
 
 #######################################################################################################################
 # Setup replication from master2 to master1
 #######################################################################################################################
-setup_master_2_master_replication $MASTER_2_HOST_IP $MASTER_2_ROOT_USER $MASTER_2_ROOT_PASSWORD $MASTER_1_HOST_IP $MASTER_1_HOST_IP $MASTER_1_ROOT_USER $MASTER_1_ROOT_PASSWORD $REPL_USER $REPL_PASSWORD
+setup_master_2_slave_replication $MASTER_2_HOST_IP $MASTER_2_ROOT_USER $MASTER_2_ROOT_PASSWORD $MASTER_1_HOST_IP $MASTER_1_ROOT_USER $MASTER_1_ROOT_PASSWORD $REPL_USER $REPL_PASSWORD
