@@ -60,7 +60,7 @@ This will list down the containers, where you can clearly identity the MySQL mas
 ```sh
 docker container exec -it <name-of-container> mysql -u root -p <mysql-password>
 ```
-> The name of the container is the first column from the out of info.sh command
+> The name of the container is the first column from the output of info.sh command
 >
 > NOTE: Find the passwords in .env file
 
