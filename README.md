@@ -60,6 +60,7 @@ This will list down the containers, where you can clearly identity the MySQL mas
 ```sh
 docker container exec -it <name-of-container> mysql -u root -p <mysql-password>
 ```
+> The name of the container is the first column from the out of info.sh command
 > NOTE: Find the passwords in .env file
 
 You can repeat the command for all the MySQL containers and then play around and see the replication action coming live.
