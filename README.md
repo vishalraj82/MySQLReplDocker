@@ -56,11 +56,15 @@ In order to see if the replication is actually working, you need to enable our n
 ```sh
 bash info.sh master-slave
 ```
-This will list down the containers, where you can clearly identity the MySQL master(s) and slave(s) nodes. In order to connect to any of the container, you can execute
+This will list down the containers, where you can clearly identify the MySQL master(s) and slave(s) nodes. In order to connect to any of the container, you can execute
 ```sh
 docker container exec -it <name-of-container> mysql -u root -p <mysql-password>
 ```
-> The name of the container is the first column from the output of info.sh command
+> The name of the container is the first column from the output of info.sh command. Once you are inside the prompt you can execute either of the following commands
+>
+> SHOW MASTER STATUS
+>
+> SHOW SLAVE STATUS\G
 >
 > NOTE: Find the passwords in .env file
 
