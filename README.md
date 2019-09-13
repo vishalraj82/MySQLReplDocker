@@ -27,8 +27,8 @@ Here is the directory structure and its explanation
         |       +--- master-2-slave.sh
         |       +--- master-2-master.sh
         |       +--- slave-2-master-2-master-2-slave.sh
-        +--- start.sh
-        +--- stop.sh
+        +--- start
+        +--- stop
         +--- check_params.sh
 
 
@@ -40,27 +40,27 @@ Here is the directory structure and its explanation
 # How to get MySQL containers up and running
 To run a MySQL master-slave container replication execute the command
 ```sh
-bash start.sh master-slave
+bash start master-slave
 ```
 To run a MySQL master-master container replication execute the command
 ```sh
-bash start.sh master-master
+bash start master-master
 ```
 To run a MySQL slave-master-master-slave replication execute the command
 ```sh
-bash start.sh slave-master-master-slave
+bash start slave-master-master-slave
 ```
 
 # Seeing replication in action
 In order to see if the replication is actually working, you need to enable our nerd mode. Lets kick in. Execute the following command to see the docker containers which are currently running
 ```sh
-bash info.sh master-slave
+bash info master-slave
 ```
 This will list down the containers, where you can clearly identify the MySQL master(s) and slave(s) nodes. In order to connect to any of the container, you can execute
 ```sh
 docker container exec -it <name-of-container> mysql -u root -p <mysql-password>
 ```
-> The name of the container is the first column from the output of info.sh command. Once you are inside the prompt you can execute either of the following commands
+> The name of the container is the first column from the output of info command. Once you are inside the prompt you can execute either of the following commands
 >
 > SHOW MASTER STATUS
 >
