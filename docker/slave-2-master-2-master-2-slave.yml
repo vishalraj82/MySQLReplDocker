@@ -89,6 +89,23 @@ services:
             REPL_USER: ${REPL_USER}
             REPL_PASSWORD: ${REPL_PASSWORD}
         command: bash ${REPL_SCRIPT_MOUNT_PATH}/slave-2-master-2-master-2-slave.sh
+    pma:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        hostname: phpmyadmin
+        environment:
+            - PMA_ARBITRARY=1
+        restart: always
+        ports:
+            - 8080:80
+        volumes:
+            - /sessions
+        depends_on:
+            - ${MASTER_1_HOSTNAME}
+            - ${SLAVE_1_HOSTNAME}
+            - replication
+        networks:
+            - replication_network
 networks:
     replication_network:
         ipam:

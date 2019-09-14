@@ -65,6 +65,7 @@ services:
         depends_on:
             - ${MASTER_1_HOSTNAME}
             - ${SLAVE_1_HOSTNAME}
+            - replication
         networks:
             - replication_network
 networks:
