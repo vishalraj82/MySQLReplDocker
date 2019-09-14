@@ -74,3 +74,5 @@ In case you are not comfortable using command line for interacting with MySQL, t
 You can access phpMyAdmin over the port 8080
 
 > Access http://localhost:8080
+>
+> For hostname, username, and password refer to the .env file
