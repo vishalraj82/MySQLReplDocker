@@ -69,3 +69,8 @@ docker container exec -it <name-of-container> mysql -u root -p <mysql-password>
 > NOTE: Find the passwords in .env file
 
 You can repeat the command for all the MySQL containers and then play around and see the replication action coming live.
+
+In case you are not comfortable using command line for interacting with MySQL, this repo also has support for phpMyAdmin.
+You can access phpMyAdmin over the port 8080
+
+> Access http://localhost:8080
