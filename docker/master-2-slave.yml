@@ -1,75 +1,25 @@
 version: "3"
 services:
     master_1:
-        image: mysql:5.7.27
-        container_name: ${MASTER_1_HOSTNAME}
-        hostname: ${MASTER_1_HOSTNAME}
-        volumes:
-            - ../conf/master1.cnf:/etc/mysql/conf.d/my.cnf:ro
-            - ../data/master1:/var/lib/mysql:rw
-            - /usr/share/zoneinfo/:/usr/share/zoneinfo/:ro
-        environment:
-            MYSQL_ROOT_PASSWORD: ${MASTER_1_ROOT_PASSWORD}
-        networks:
-            replication_network:
-                ipv4_address: ${MASTER_1_HOST_IP}
+        extends:
+            file: common-services.yml
+            service: common_master_1
     slave_1:
-        image: mysql:5.7.27
-        container_name: ${SLAVE_1_HOSTNAME}
-        hostname: ${SLAVE_1_HOSTNAME}
-        volumes:
-            - ../conf/slave1.cnf:/etc/mysql/conf.d/my.cnf:ro
-            - ../data/slave1:/var/lib/mysql:rw
-            - /usr/share/zoneinfo/:/usr/share/zoneinfo/:ro
-        environment:
-            MYSQL_ROOT_PASSWORD: ${SLAVE_1_ROOT_PASSWORD}
+        extends:
+            file: common-services.yml
+            service: common_slave_1
         depends_on:
             - ${MASTER_1_HOSTNAME}
-        networks:
-            replication_network:
-                ipv4_address: ${SLAVE_1_HOST_IP}
     replication:
-        image: ubuntu:18.04
-        volumes:
-            - ../scripts:${REPL_SCRIPT_MOUNT_PATH}
+        extends:
+            file: common-service.yml
+            service: replication
         depends_on:
             - ${MASTER_1_HOSTNAME}
             - ${SLAVE_1_HOSTNAME}
-        networks:
-            - replication_network
-        environment:
-            MASTER_1_HOSTNAME: ${MASTER_1_HOSTNAME}
-            MASTER_1_HOST_IP: ${MASTER_1_HOST_IP}
-            MASTER_1_ROOT_USER: ${MASTER_1_ROOT_USER}
-            MASTER_1_ROOT_PASSWORD: ${MASTER_1_ROOT_PASSWORD}
-
-            SLAVE_1_HOSTNAME: ${SLAVE_1_HOSTNAME}
-            SLAVE_1_HOST_IP: ${SLAVE_1_HOST_IP}
-            SLAVE_1_ROOT_USER: ${SLAVE_1_ROOT_USER}
-            SLAVE_1_ROOT_PASSWORD: ${SLAVE_1_ROOT_PASSWORD}
-
-            REPL_USER: ${REPL_USER}
-            REPL_PASSWORD: ${REPL_PASSWORD}
         command: bash ${REPL_SCRIPT_MOUNT_PATH}/master-2-slave.sh
     pma:
-        image: phpmyadmin/phpmyadmin
-        container_name: phpmyadmin
-        hostname: phpmyadmin
-        environment:
-            - PMA_ARBITRARY=1
-        restart: always
-        ports:
-            - 8080:80
-        volumes:
-            - /sessions
         depends_on:
             - ${MASTER_1_HOSTNAME}
             - ${SLAVE_1_HOSTNAME}
             - replication
-        networks:
-            - replication_network
-networks:
-    replication_network:
-        ipam:
-            config:
-                - subnet: 10.208.0.0/16
