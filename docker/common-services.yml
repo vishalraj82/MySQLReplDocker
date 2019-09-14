@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
     common_master_1:
         image: mysql:5.7.27
@@ -95,8 +95,3 @@ services:
             - /sessions
         networks:
             - replication_network
-networks:
-    replication_network:
-        ipam:
-            config:
-                - subnet: 10.208.0.0/16

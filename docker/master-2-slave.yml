@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
     master_1:
         extends:
@@ -9,17 +9,25 @@ services:
             file: common-services.yml
             service: common_slave_1
         depends_on:
-            - ${MASTER_1_HOSTNAME}
+            - master_1
     replication:
         extends:
-            file: common-service.yml
+            file: common-services.yml
             service: replication
         depends_on:
-            - ${MASTER_1_HOSTNAME}
-            - ${SLAVE_1_HOSTNAME}
+            - master_1
+            - slave_1
         command: bash ${REPL_SCRIPT_MOUNT_PATH}/master-2-slave.sh
     pma:
+        extends:
+            file: common-services.yml
+            service: pma
         depends_on:
-            - ${MASTER_1_HOSTNAME}
-            - ${SLAVE_1_HOSTNAME}
+            - master_1
+            - slave_1
             - replication
+networks:
+    replication_network:
+        ipam:
+            config:
+                - subnet: 10.208.0.0/16
