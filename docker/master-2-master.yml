@@ -2,6 +2,7 @@ version: "3"
 services:
     master_1:
         image: mysql:5.7.27
+        container_name: ${MASTER_1_HOSTNAME}
         hostname: ${MASTER_1_HOSTNAME}
         volumes:
             - ../conf/master1.cnf:/etc/mysql/conf.d/my.cnf:ro
@@ -14,6 +15,7 @@ services:
                 ipv4_address: ${MASTER_1_HOST_IP}
     master_2:
         image: mysql:5.7.27
+        container_name: ${MASTER_2_HOSTNAME}
         hostname: ${MASTER_2_HOSTNAME}
         volumes:
             - ../conf/master2.cnf:/etc/mysql/conf.d/my.cnf:ro

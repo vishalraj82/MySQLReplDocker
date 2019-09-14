@@ -6,11 +6,14 @@ source check_params.sh
 
 check_docker_config
 
-echo "Using configuration file $file"
-echo
-docker-compose -f $file down
+if [ $file_found -eq 1 ];
+then
+    echo "Using configuration file $file"
+    echo
+    docker-compose -f $file down
+fi
 
-if [ "$2" == "clean" ]
+if [ "$2" == "clean" ];
 then
     for node in "master" "slave"
     do
