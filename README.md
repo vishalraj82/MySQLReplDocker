@@ -73,6 +73,6 @@ You can repeat the command for all the MySQL containers and then play around and
 In case you are not comfortable using command line for interacting with MySQL, this repo also has support for phpMyAdmin.
 You can access phpMyAdmin over the port 8080
 
-> Access http://localhost:8080
+> Access http://localhost:8080 in your favorite browser
 >
 > For hostname, username, and password refer to the .env file
